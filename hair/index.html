@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hair Command Center</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Hair Command</h1>
+        <div class="subtitle">Modular Architecture</div>
+    </header>
+
+    <div class="today-banner">
+        <div class="banner-bg"></div>
+        <div class="today-content">
+            <div class="today-date" id="dateDisplay">Loading...</div>
+            <div class="today-action" id="actionDisplay">...</div>
+            <div class="today-detail" id="detailDisplay">...</div>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="card full-width-tablet span-2-desktop" style="order: 1">
+            <h2><i class="fa-solid fa-list-check" style="color: var(--success);"></i> Misi Hari Ini <span id="progressText" style="margin-left:auto; font-size:0.8em; color:var(--text-muted)">0/5</span></h2>
+            <div class="checklist-container" id="dailyList">
+            </div>
+            <button class="btn-reset" onclick="resetChecklist()">🔄 Reset Checklist Hari Ini</button>
+        </div>
+
+        <div class="card" style="order: 2">
+            <h2><i class="fa-solid fa-calendar-days" style="color: var(--primary);"></i> Jadwal Mingguan</h2>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: -15px; margin-bottom: 15px;">Klik pada hari untuk melihat detail tugas.</p>
+            <div class="weekly-list" id="weeklyScheduleList">
+            </div>
+        </div>
+
+        <div class="card" style="order: 3; border-color: var(--accent);">
+            <h2><i class="fa-solid fa-scissors" style="color: var(--accent);"></i> Mode Barber</h2>
+            
+            <div class="barber-guide">
+                <strong>STYLE:</strong> Korean Wavy Two Block (Taper Fade)<br><br>
+                <strong>1. SAMPING & BELAKANG:</strong><br>
+                "Mas, potong Taper Fade (Gradasi). Bawah tipis, makin ke atas makin tebal (nge-blend)."<br><br>
+                <strong>2. ATAS:</strong><br>
+                "Atasnya JANGAN dipendekin. Cukup 'Texturizing' (Sasak dalam) biar ikal jatuh natural."<br><br>
+                <strong>3. PONI:</strong><br>
+                "Biarkan panjang sealis mata. Mau distyling Comma Hair."
+            </div>
+
+            <div class="barber-actions">
+                <button class="btn-small" onclick="openGlossary()"><i class="fa-solid fa-book"></i> Kamus Istilah</button>
+            </div>
+
+            <div class="barber-meta">
+                <div class="meta-tag" style="color: var(--warning);"><i class="fa-solid fa-calendar-check"></i> Siklus: 3 Minggu Sekali</div>
+                <div class="meta-tag" style="color: var(--success);"><i class="fa-solid fa-wallet"></i> Rp 20rb - 35rb</div>
+            </div>
+        </div>
+
+        <div class="card full-width-tablet" style="order: 4">
+            <h2><i class="fa-solid fa-cart-shopping" style="color: var(--warning);"></i> Arsenal Belanja</h2>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: -15px; margin-bottom: 15px;">Klik ikon <i class="fa-solid fa-circle-info" style="color:var(--primary)"></i> untuk bedah komposisi lengkap.</p>
+            <div class="checklist-container" id="shoppingList"></div>
+        </div>
+    </div>
+</div>
+
+<div id="dayDetailModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modalTitle">Detail Hari</h3>
+            <button class="close-btn" onclick="closeModal('dayDetailModal')">×</button>
+        </div>
+        <div class="modal-body">
+            <div class="checklist-container" id="modalTaskList"></div>
+        </div>
+    </div>
+</div>
+
+<div id="productDetailModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title" id="prodModalTitle">Detail Produk</h3>
+            <button class="close-btn" onclick="closeModal('productDetailModal')">×</button>
+        </div>
+        <div class="modal-body" id="prodModalBody">
+        </div>
+    </div>
+</div>
+
+<div id="glossaryModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title" style="color: var(--accent);">📚 Kamus Rambut</h3>
+            <button class="close-btn" onclick="closeModal('glossaryModal')">×</button>
+        </div>
+        <div class="modal-body">
+            <div class="glossary-item">
+                <span class="glossary-term">Two Block (Potongan Dasar)</span>
+                <span class="glossary-desc">Struktur utama. Atas panjang, samping pendek. Seperti memilih <strong>Bahan Celana Jeans</strong>.</span>
+            </div>
+            <div class="glossary-item">
+                <span class="glossary-term">Taper Fade (Teknik)</span>
+                <span class="glossary-desc">Cara memotong samping dengan gradasi halus (tipis ke tebal). Bukan botak rata. Seperti <strong>Jahitan Slim Fit</strong>.</span>
+            </div>
+            <div class="glossary-item">
+                <span class="glossary-term">Comma Hair (Styling)</span>
+                <span class="glossary-desc">Gaya menyisir poni melengkung seperti tanda koma (,). Ini adalah <strong>Cara Memakai</strong> rambutmu.</span>
+            </div>
+             <div class="glossary-item">
+                <span class="glossary-term">Wavy (Tekstur)</span>
+                <span class="glossary-desc">Kondisi alami rambutmu yang ikal/bergelombang. Aset berharga tanpa perlu perm.</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
